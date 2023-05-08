@@ -1,0 +1,272 @@
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 100vh;
+    width: 100vw;
+
+    background-color: var(--background);
+}
+
+.header-section, 
+.place-section,
+.tower-section, 
+.floor-section,
+.room-section,
+.date-n-time-section
+ {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+
+.App {
+    height: 560px;
+    width: 480px;
+
+    /* margin-left: 256px; */
+
+    box-shadow: var(--box-shadow);
+    border-radius: var(--border-radius);
+    background-color: var(--card-background);
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
+    box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+}
+
+.header-section {
+    height: 84px;
+    padding-left: var(--padding);
+
+    color: var(--light-text);
+    box-shadow: var(--box-shadow);
+    background-color: var(--main-blue);
+
+    border-top-right-radius: var(--border-radius);
+    border-top-left-radius: var(--border-radius);
+}
+
+.header-text {
+    font-size: 24px;
+    line-height: 28px;
+    font-weight: 500;
+}
+
+.place-section {
+    height: 60px;
+    box-sizing: border-box;
+    padding: 0 var(--padding);
+}
+
+.tower-section, 
+.floor-section,
+.room-section {
+    width: 33%;
+    height: 100%;
+    /* padding-right: 32px; */
+}
+
+.place-section label {
+    padding-right: 16px;
+    order: 0;
+}
+
+.place-section select {
+    width: 48px;
+    height: 48px;
+
+    font-size: 18px;
+    color: var(--basic-text);
+    /* var(--basic-text); */
+    text-align: center;
+
+    border: 1px solid #C3C3C3;
+    border-radius: var(--border-radius);
+    background: transparent;
+    
+    order: 1;
+}
+
+.place-section select:focus, 
+.place-section select:hover {
+    color: var(--dark-text);
+}
+.place-section select:focus + label,
+.place-section select:hover + label { color: var(--dark-text) }
+.place-section select:hover { border: 1px solid #9c9c9c }
+.place-section select:focus {
+    outline: 0;
+    border: 1px solid #9c9c9c;
+}
+
+.place-section select::-webkit-scrollbar { width: 4px }
+.place-section select::-webkit-scrollbar-button { height: 0 }
+.place-section select::-webkit-scrollbar-thumb { background-color: #00000025 }
+.place-section select::-webkit-scrollbar-thumb:hover { background-color: #0000002f }
+.place-section select::-webkit-scrollbar-track { background-color: #00000020 }
+
+
+
+
+
+
+
+.tower-section {
+    
+}
+
+.floor-section {
+    
+}
+
+.room-section {
+    
+}
+
+.date-n-time-section {
+    height: 80px;
+    padding: 0 var(--padding);
+}
+
+.date-section,
+.time-section {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-evenly;
+    flex-direction: column;
+    
+    width: 33%;
+    height: 100%;
+}
+
+.date-section {
+}
+
+.time-section {
+    
+}
+
+.date-section input,
+.time-section select {
+    box-sizing: border-box;
+    height: 32px;
+}
+
+.comment-section {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-direction: column;
+    
+    box-sizing: border-box;
+    height: 96px;
+    padding: 0 var(--padding);
+}
+
+.comment-section label {
+    color: #707070;
+    order: 0;
+}
+
+.comment-section textarea {
+    width: 100%;
+    height: 72px;
+
+    padding: 2px 4px;
+
+    box-sizing: border-box;
+    resize: none;
+
+    border: 1px solid #C3C3C3;
+    border-radius: var(--border-radius);
+
+    font-family: var(--main-font);
+    font-size: 14px;
+    line-height: 18px;
+    color: #8a8a8a;
+    order: 1;
+}
+
+.comment-section textarea:focus + label {
+    color: #555555;
+}
+.comment-section textarea:hover + label {
+    color: #606060;
+}
+.comment-section textarea:focus {
+    outline: 0;
+    border: 1px solid #9c9c9c;
+    color: #555555;
+}
+.comment-section textarea:hover {
+    border: 1px solid #9c9c9c;
+}
+.comment-section textarea::-webkit-scrollbar {
+    width: 8px;
+}
+.comment-section textarea::-webkit-scrollbar-button {
+    height: 0;
+}
+.comment-section textarea::-webkit-scrollbar-thumb {
+    background-color: #00000025;
+    border-radius: 10px;
+}
+.comment-section textarea::-webkit-scrollbar-thumb:hover {
+    background-color: #0000002f;
+    cursor: pointer;
+}
+.comment-section textarea::-webkit-scrollbar-thumb:active {
+    background-color: #0000004a;
+}
+.comment-section textarea::-webkit-scrollbar-track {
+    background-color: #00000020;
+}
+
+.buttons-section {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    
+    height: 40px;
+    padding: 0 var(--padding);
+    padding-bottom: 48px;
+}
+
+.buttons-section button {
+    box-sizing: border-box;
+    height: 44px;
+    padding: 6px 28px;
+
+    border: none;
+    border-radius: var(--border-radius);
+
+    font-family: var(--main-font);
+    font-size: 16px;
+    line-height: 19px;
+    text-decoration: none;
+
+    outline-width: 0;
+    cursor: pointer;
+    transition: all .3s ease;
+}
+
+.buttons-section .clear {
+    background: #ffffff;
+    color: #297AB5;
+    border: 1px solid #ACD8F8;
+}
+
+.buttons-section .submit {
+    background: #4DD3A9;
+    color: #fff;
+    margin-right: var(--padding);
+}
