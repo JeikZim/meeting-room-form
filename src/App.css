@@ -23,8 +23,8 @@ body {
 
 
 .App {
-    height: 560px;
-    width: 480px;
+    height: var(--app-height);
+    width: var(--app-width);
 
     /* margin-left: 256px; */
 
@@ -44,7 +44,7 @@ body {
 }
 
 .header-section {
-    height: 84px;
+    height: var(--header-height);
     padding-left: var(--padding);
 
     color: var(--light-text);
@@ -182,73 +182,6 @@ label {
     background-color: var(--active-option);
 }
 
-
-/* .place-section label:focus,  */
-/* .place-section .select:focus,  */
-label:hover,
-.select:hover,
-#date-selector:hover,
-.floor-section:focus, 
-.floor-section:hover,
-.tower-section:focus, 
-.tower-section:hover,
-.room-section:focus, 
-.room-section:hover,
-.date-section:hover,
-.floor-section:hover .select,
-.tower-section:hover .select,
-.room-section:hover .select,
-.date-section:hover input,
-.pseudo-select:hover,
-.pseudo-select:focus,
-.selectors-group:hover,
-.selectors-group:focus,
-.selectors-group:hover .select,
-.selectors-group:focus .select,
-#date-selector:focus + label,
-#date-selector:hover + label
-.selectors-group:focus + label,
-.selectors-group:hover + label {
-    color: var(--dark-text);
-}
-.date-section:hover #date-selector::-webkit-calendar-picker-indicator {
-    filter: invert(20%);
-}
-
-.select:hover,
-.pseudo-select:hover + .select,
-.floor-section:hover .select,
-.tower-section:hover .select,
-.room-section:hover .select,
-.time-section:hover .select,
-.date-section:hover input {
-    outline: 0;
-    border-color: #9c9c9c;
-}
-.select.open:hover,
-.pseudo-select.open:hover .select.open,
-.floor-section:hover .select.open,
-.tower-section:hover .select.open,
-.room-section:hover .select.open,
-.time-section:hover .select.open  {
-    border-bottom-color: var(--white-background);
-}
-.select:focus, 
-.pseudo-select:focus + .select {
-    outline: 0;
-}
-.pseudo-select::-webkit-scrollbar { width: 4px }
-.pseudo-select::-webkit-scrollbar-button { height: 0 }
-.pseudo-select::-webkit-scrollbar-thumb { background-color: #00000025 }
-.pseudo-select::-webkit-scrollbar-thumb:hover { background-color: #0000002f }
-.pseudo-select::-webkit-scrollbar-track { background-color: #00000020 }
-
-
-
-
-
-
-
 .date-n-time-section {
     --time-height: 42px;
     
@@ -332,11 +265,6 @@ label:hover,
     transform: scale(1.1);
     filter: invert(55%);
 }
-
-
-
-
-
 
 .comment-section {
     display: flex;
@@ -424,7 +352,7 @@ label:hover,
     height: 44px;
     padding: 6px 28px;
 
-    border: none;
+    border: 1px solid #ffffff00;
     border-radius: var(--border-radius);
 
     font-family: var(--main-font);
@@ -434,7 +362,26 @@ label:hover,
 
     outline-width: 0;
     cursor: pointer;
-    transition: all .3s ease;
+    transition: all .15s ease;
+}
+
+.buttons-section .submit {
+    background: #4DD3A9;
+    border: 1px solid #4DD3A9;
+    color: #fff;
+    margin-right: var(--padding);
+}
+
+.buttons-section .submit:hover {
+    background: #3db08c;
+    border: 1px solid #3db08c;
+}
+
+
+.buttons-section .submit:active {
+    background-color: #ffffff;
+    color: #297AB5;
+    border: 1px solid #ACD8F8;
 }
 
 .buttons-section .clear {
@@ -443,8 +390,151 @@ label:hover,
     border: 1px solid #ACD8F8;
 }
 
-.buttons-section .submit {
+.buttons-section .clear:hover {
+    background: #f2f3f5;
+}
+
+.buttons-section .clear:active {
+    background: rgb(225, 235, 244);
+}
+
+
+.success-container {
+    height: 100%;
+    width: 100%;
+}
+
+.success-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+    height: calc(var(--app-height) - var(--header-height));
+    width: 100%;
+}
+
+.success-icon svg {
+    padding-bottom: 36px;
+}
+
+.success-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+
+    padding-bottom: 32px;
+}
+
+.success-text {
+    display: block;
+    font-size: 18px;
+    line-height: 22px;   
+    
+    padding-top: 16px;
+    padding-bottom: 40px;
+}
+
+.ready {
+    height: 44px;
+    padding: 6px 28px;
+
+    box-sizing: border-box;
+    border: 2px solid #4DD3A9;
+    border-radius: var(--border-radius);
+
+    font-family: var(--main-font);
+    font-size: var(--font-size);
+    line-height: 19px;
+    text-decoration: none;
+
+    outline-width: 0;
+    cursor: pointer;
+    transition-property: background-color, border-color;
+    transition-duration: .15s;
+    transition-timing-function: ease;
     background: #4DD3A9;
     color: #fff;
-    margin-right: var(--padding);
 }
+
+.ready:hover {
+    background: #3db08c;
+    border: 2px solid #3db08c;
+}
+
+.ready:active {
+    background-color: #ffffff;
+    color: #297AB5;
+    border: 2px solid #ACD8F8;
+}
+
+.invalid-field {
+    outline: 1px solid rgb(255, 95, 95) !important;
+    border-color: 1px solid rgb(255, 95, 95) !important;
+    background: rgb(255, 245, 245) !important;
+}
+
+.is-hidden {
+    display: none;
+}
+
+/* .place-section label:focus,  */
+/* .place-section .select:focus,  */
+label:hover,
+.select:hover,
+#date-selector:hover,
+.floor-section:focus, 
+.floor-section:hover,
+.tower-section:focus, 
+.tower-section:hover,
+.room-section:focus, 
+.room-section:hover,
+.date-section:hover,
+.floor-section:hover .select,
+.tower-section:hover .select,
+.room-section:hover .select,
+.date-section:hover input,
+.pseudo-select:hover,
+.pseudo-select:focus,
+.selectors-group:hover,
+.selectors-group:focus,
+.selectors-group:hover .select,
+.selectors-group:focus .select,
+#date-selector:focus + label,
+#date-selector:hover + label
+.selectors-group:focus + label,
+.selectors-group:hover + label {
+    color: var(--dark-text);
+}
+.date-section:hover #date-selector::-webkit-calendar-picker-indicator {
+    filter: invert(20%);
+}
+
+.select:hover,
+.pseudo-select:hover + .select,
+.floor-section:hover .select,
+.tower-section:hover .select,
+.room-section:hover .select,
+.time-section:hover .select,
+.date-section:hover input {
+    outline: 0;
+    border-color: #9c9c9c;
+}
+.select.open:hover,
+.pseudo-select.open:hover .select.open,
+.floor-section:hover .select.open,
+.tower-section:hover .select.open,
+.room-section:hover .select.open,
+.time-section:hover .select.open  {
+    border-bottom-color: var(--white-background);
+}
+.select:focus, 
+.pseudo-select:focus + .select {
+    outline: 0;
+}
+.pseudo-select::-webkit-scrollbar { width: 4px }
+.pseudo-select::-webkit-scrollbar-button { height: 0 }
+.pseudo-select::-webkit-scrollbar-thumb { background-color: #00000025 }
+.pseudo-select::-webkit-scrollbar-thumb:hover { background-color: #0000002f }
+.pseudo-select::-webkit-scrollbar-track { background-color: #00000020 }

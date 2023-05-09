@@ -17,6 +17,9 @@ body {
     --font-size: 16px;
     --line-height: 20px;
 
+    --app-width: 480px;
+    --app-height: 560px;
+    --header-height: 84px;
     --padding: 32px;
     --box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
     --border-radius: 4px;
