@@ -80,60 +80,112 @@ body {
     order: 0;
 }
 
-.place-section select {
+.place-section .selectors-group {
+    position: relative;
     width: 48px;
     height: 48px;
 
     font-size: 18px;
+    text-align: center;
+
+    background: transparent;
+    
+    order: 1;
+}
+
+.place-section {
     color: var(--basic-text);
-    /* var(--basic-text); */
+
+}
+
+.place-section .select {
+    width: 48px;
+    height: 48px;
+
+    font-size: 18px;
     text-align: center;
 
     border: 1px solid #C3C3C3;
     border-radius: var(--border-radius);
     background: transparent;
     
+    /* TODO: убрать */
     order: 1;
 }
 
-.place-section select:focus, 
-.place-section select:hover {
+.place-section label:focus, 
+.place-section label:hover,
+.place-section .floor-section:focus , 
+.place-section .floor-section:hover ,
+.place-section .select:focus, 
+.place-section .select:hover,
+.place-section .selectors-group:hover,
+.place-section .selectors-group:focus,
+.place-section .pseudo-select:hover,
+.place-section .pseudo-select:focus,
+.place-section .pseudo-select:hover + .select,
+.place-section .pseudo-select:focus + .select,
+.place-section .selectors-group:focus + label,
+.place-section .selectors-group:hover + label {
     color: var(--dark-text);
 }
-.place-section select:focus + label,
-.place-section select:hover + label { color: var(--dark-text) }
-.place-section select:hover { border: 1px solid #9c9c9c }
-.place-section select:focus {
+.place-section .select:hover,
+.place-section .select:focus,
+.place-section .pseudo-select:hover + .select,
+.place-section .pseudo-select:focus + .select {
     outline: 0;
+    border-color: #9c9c9c;
+}
+
+.place-section .pseudo-select::-webkit-scrollbar { width: 4px }
+.place-section .pseudo-select::-webkit-scrollbar-button { height: 0 }
+.place-section .pseudo-select::-webkit-scrollbar-thumb { background-color: #00000025 }
+.place-section .pseudo-select::-webkit-scrollbar-thumb:hover { background-color: #0000002f }
+.place-section .pseudo-select::-webkit-scrollbar-track { background-color: #00000020 }
+
+
+
+
+.floor-section .pseudo-select {
+    position: absolute;
+    top: 48px;
+    right: 0;
+
+    max-height: 200px;
+    width: calc(48px - 2px);
+    
     border: 1px solid #9c9c9c;
+    border-bottom-left-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
+
+    box-shadow: 0 4px 8px 0px #cbcbcb;
+    background-color: #fff;
+    overflow: auto;
 }
 
-.place-section select::-webkit-scrollbar { width: 4px }
-.place-section select::-webkit-scrollbar-button { height: 0 }
-.place-section select::-webkit-scrollbar-thumb { background-color: #00000025 }
-.place-section select::-webkit-scrollbar-thumb:hover { background-color: #0000002f }
-.place-section select::-webkit-scrollbar-track { background-color: #00000020 }
+.place-section .select.open {
+    border-bottom: none;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
 
+.floor-section .pseudo-option {
+    user-select: none;
+}
 
-
-
-.floor-section select {
-    max-height: 100px;
+.floor-section .pseudo-option:hover {
+    color: #fff;
+    background-color: var(--hover-option);
+}
+.floor-section .pseudo-option:active {
+    color: #fff;
+    background-color: var(--active-option);
 }
 
 
 
-.tower-section {
-    
-}
 
-.floor-section {
-    
-}
 
-.room-section {
-    
-}
 
 .date-n-time-section {
     height: 80px;

@@ -147,7 +147,7 @@ function HeaderSection(props) {
 function TowerSection(props) {
   return (
         <div className="tower-section">
-            <select required name="tower" id="tower-selector">
+            <select className="select" required name="tower" id="tower-selector">
                 <option value="" selected disabled>-</option>
                 <option value="А">А</option>
                 <option value="Б">Б</option>
@@ -164,32 +164,95 @@ function TowerSection(props) {
   );
 }
 
-function FloorSection(props) {
-    
-    const lowerFloor = props.lowerFloor;
-    const upperFloor = props.upperFloor;
-    const nums = [];
+class Selector extends React.Component {
+    constructor(props) {
+        super(props);
 
-    for (let num = lowerFloor; num <= upperFloor; num++) {
-        nums.push( num );
+        this.state = {
+            isOpen: false
+        }
+        // type: str[], 
+        this.contentGenerator = props.contentGenerator;
+
+        // this.nums = [];
+        // for (let num = props.lowerFloor; num <= props.upperFloor; num++) {
+        //     this.nums.push(num);
+        // }
     }
-    
-    return (
-        <div className="floor-section">
-            <select 
-                // size={1} 
-                // onClick={this.size= (this.size!=1) ? nums.length : 5} 
-                // onMouseLeave={this.size= (this.size!=1) ? nums.length : 5} 
-                name="floor" id="floor-selector" required
-            >
-                <option value="" selected disabled>-</option>
-                { nums.map(num => (
-                        <option value={num}>{num}</option>
+
+    openeSelect(ev) {
+        ev.preventDefault()
+        const el = document.getElementById(this.props.name + "-selector")
+        this.setState((prevState) => {
+            return {
+                isOpen: !prevState.isOpen
+            }
+        })
+    }
+
+    render() {
+        return (
+            <div className="selectors-group">
+                <div className="pseudo-select">
+                    {this.contentGenerator().map(num => (
+                        <div className="pseudo-option" value={num}>{num}</div>
                     ))}
-            </select>
-            <label for="floor-selector">Этаж</label>
-        </div>
-    );
+                </div>
+                <select className={"select" + this.state.isOpen ? "open" : ""}
+                    onMouseDown={this.openeSelect}
+                    name={this.props.name} id={this.props.name + "-selector"} required
+                >
+                    <option value="" selected>-</option>
+                </select>
+            </div>
+        );
+    }
+}
+
+class FloorSection extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.nums = [];
+        for (let num = props.lowerFloor; num <= props.upperFloor; num++) {
+            this.nums.push(num);
+        }
+    }
+
+    openeSelect(ev) {
+        ev.preventDefault()
+        
+    }
+
+    render() {
+        return (
+            <div className="floor-section">
+
+                <div className="floor-selectors selectors-group">
+                    <div className="pseudo-select">
+                        {this.nums.map(num => (
+                            <div className="pseudo-option" value={num}>{num}</div>
+                        ))}
+                    </div>
+                    <select className="select open" 
+                        size={this.state.size}
+                        onMouseDown={this.openeSelect}
+                        name="floor" id="floor-selector" required
+                    >
+                        <option value="" selected>-</option>
+                    </select>
+                </div>
+                <label for="floor-selector">Этаж</label>
+            </div>
+        );
+    }
+    // onMouseLeave={() => {
+    //     this.setState((prevState) => {
+    //         return {
+    //             size: (prevState.size != 1) ? this.nums.length : 5
+    //         }
+    //     })
+    // }}
 }
 
 function RoomSection(props) {
@@ -201,7 +264,7 @@ function RoomSection(props) {
 
     return (
         <div className="room-section">
-            <select required name="room" id="room-selector">
+            <select className="select" required name="room" id="room-selector">
                 <option value="" selected disabled>-</option>
                 { nums.map(num => (
                         <option value={num}>{num}</option>
