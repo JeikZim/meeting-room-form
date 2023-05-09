@@ -30,8 +30,8 @@ class App extends React.Component {
     //   );
     // };
 
-    onSubmit(event) {
-        event.preventDefault();
+    onSubmit(ev) {
+        ev.preventDefault();
 
         const form = document.getElementById('main-form');
         const formDataObj = new FormData(form);
@@ -58,8 +58,8 @@ class App extends React.Component {
                 // Если нет, то сообщает об этом и обновляет состояние 
 
             } 
-            catch (error) {
-                console.error(error)
+            catch (err) {
+                console.error(err)
                 return;
             }
         } 
@@ -117,36 +117,59 @@ class App extends React.Component {
         // });
     };
 
+    onClear(ev) {
+        const towerSelector = document.querySelector('#tower-selector option');
+        const floorSelector = document.querySelector('#floor-selector option');
+        const roomSelector = document.querySelector('#room-selector option');
+        const timeSelector = document.querySelector('#time-selector option');
+        
+        towerSelector.value = ""
+        floorSelector.value = ""
+        roomSelector.value = ""
+        timeSelector.value = ""
+
+        towerSelector.innerHTML = "-"
+        floorSelector.innerHTML = "-"
+        roomSelector.innerHTML = "-"
+        timeSelector.innerHTML = "чч:мм-чч:мм"
+    }
+
     render() {
         return (
             <div className="App">
-                <form id="main-form" className="form" method="" action="">
+                <form id="main-form" className="form">
                     <HeaderSection />
                     <div className="place-section">
-                        <TowerSection />
+                        <TowerSection towers={['А', 'Б']} />
                         <FloorSection lowerFloor={3} upperFloor={27} />
                         <RoomSection roomsNumber={10} />
                     </div>
                     <TimeSection firstHour={8} lastHour={20} />
                     <CommentSection />
-                    <ButtonSection onSubmit={this.onSubmit.bind(this)}/>
+                    <ButtonSection 
+                        onSubmit={this.onSubmit.bind(this)}
+                        onClear={this.onClear.bind(this)}
+                    />
                 </form>
             </div>
         );
     }
 }
-
 class Selector extends React.Component {
     constructor(props) {
         super(props);
     
         this.contentGenerator = props.contentGenerator;
         this.name = props.name
+        this.blank = props.blank
 
         this.state = {
             isOpen: false,
             wasOpened: false,
-            value: null
+            option: {
+                value: null,
+                title: this.blank
+            } 
         }
     }
 
@@ -176,13 +199,13 @@ class Selector extends React.Component {
         }
     }
 
-    selectOption(val) {
+    selectOption(obj) {
         return (ev) => {
             ev.preventDefault()
 
             this.setState((prevState) => {
                 return { 
-                    value: val,
+                    option: obj,
                     isOpen: !prevState.isOpen 
                 }
             })
@@ -196,13 +219,14 @@ class Selector extends React.Component {
                 className={"selectors-group " + (this.state.isOpen ? "open" : "")}
             >
                 <div className={"pseudo-select " + (this.state.isOpen ? "open" : "")}>
-                    {this.contentGenerator().map(num => (
+                    {this.contentGenerator().map(obj => (
                         <div 
-                            onClick={this.selectOption(num).bind(this)} 
+                            key={obj.value}
+                            onClick={this.selectOption(obj).bind(this)} 
                             className="pseudo-option" 
-                            value={num}
+                            value={obj.value}
                         >
-                            {num}
+                            {obj.title}
                         </div>
                     ))}
                 </div>
@@ -215,10 +239,10 @@ class Selector extends React.Component {
                     required
                 >
                     <option 
-                        value={this.state.value ? this.state.value : null} 
-                        selected
+                        value={this.state.option.value ? this.state.option.value : null} 
+                        
                     >
-                        {this.state.value ? this.state.value : "-"}
+                        {this.state.option.title ? this.state.option.title : this.blank}
                     </option>
                 </select>
             </div>
@@ -229,7 +253,7 @@ class Selector extends React.Component {
 function HeaderSection(props) {
     return (
           <div className="header-section">
-              <h1 className="header-text" for="">Бронирование переговорной</h1>
+              <h1 className="header-text" htmlFor="">Бронирование переговорной</h1>
           </div>
     );
   }
@@ -237,91 +261,108 @@ function HeaderSection(props) {
 function TowerSection(props) {
   return (
         <div className="tower-section">
-            {/* <Selector
+            <Selector
                 name="tower"
+                blank="-"
                 contentGenerator={() => {
-                    const floors = { lower:3, upper: 27 }
-                    const nums = [];
-                    
-                    for (let num = floors.lower; num <= floors.upper; num++) {
-                        nums.push(num);
+                    const towers = []
+                    for (let i = 0; i < props.towers.length; i++) {
+                        towers.push({value: i + 1, title: props.towers[i]})    
                     }
-                    return nums;
+                    return towers
                 }}
-            /> */}
-            <select className="select" required name="tower" id="tower-selector">
-                <option value="" selected disabled>-</option>
-                <option value="А">А</option>
-                <option value="Б">Б</option>
-            </select>
-            <label for="tower-selector">Башня</label>
+            />
+            <label htmlFor="tower-selector">Башня</label>
         </div>
   );
 }
 
-function FloorSection(params) {
+function FloorSection(props) {
     return (
         <div className="floor-section">
             <Selector
                 name="floor"
+                blank="-"
                 contentGenerator={() => {
-                    const floors = { lower:3, upper: 27 }
-                    const nums = [];
-                    
-                    for (let num = floors.lower; num <= floors.upper; num++) {
-                        nums.push(num);
+                    const floors = [];
+                    for (let floor = props.lowerFloor; floor <= props.upperFloor; floor++) {
+                        floors.push({value: floor, title: floor});
                     }
-                    return nums;
+                    return floors;
                 }}
             />
-            <label for="floor-selector">Этаж</label>
+            <label htmlFor="floor-selector">Этаж</label>
         </div>
     );
 }
 
 function RoomSection(props) {
-
-    const nums = []
-    for (let num = 1; num <= props.roomsNumber; num++) {
-        nums.push( num );
-    }
-
     return (
         <div className="room-section">
-            <select className="select" required name="room" id="room-selector">
-                <option value="" selected disabled>-</option>
-                { nums.map(num => (
-                        <option value={num}>{num}</option>
-                    ))}
-            </select>
-            <label for="room-selector">Номер</label>
+            <Selector
+                name="room"
+                blank="-"
+                contentGenerator={() => {
+                    const rooms = []
+                    for (let room = 1; room <= props.roomsNumber; room++) {
+                        rooms.push({value: room, title: room});
+                    }
+                    return rooms;
+                }}
+            />
+            <label htmlFor="room-selector">Номер</label>
         </div>
     );
 }
 
 function TimeSection(props) {
-    const firstHour = props.firstHour;
-    const lastHour = props.lastHour; 
-    const nums = [];
-
-    for (let num = firstHour; num <= lastHour; num++) {
-        nums.push( num );
+    const currentDate = () => {
+        let dateObj = new Date();
+        let currDay = dateObj.getDate();
+        let currMonth = dateObj.getMonth() + 1;
+        let currYear = dateObj.getFullYear();
+        return `${
+                    currYear
+                }-${
+                    String(currMonth).length > 1 ? currMonth : ('0' + currMonth)
+                }-${
+                    String(currDay).length > 1 ? currDay : ('0' + currDay)
+                }`
     }
-
     return (
         <div className="date-n-time-section">
             <div className="date-section">
-                <label for="date-selector">День</label>
-                <input required type="date" name="date" id="date-selector" />
+                <input 
+                    id="date-selector"
+                    min={currentDate()} 
+                    max="2099-12-31" 
+                    type="date" 
+                    name="date" 
+                    required />
+                <label htmlFor="date-selector">День</label>
             </div>
             <div className="time-section">
-                <label for="time-selector">Время</label>
-                <select required name="time" id="time-selector">
-                    <option value="" selected disabled>-</option>
-                    { nums.map(num => (
-                            <option value={num}>{num}:00 - {num + 1}:00</option>
-                        ))}
-                </select>
+                <Selector 
+                    name="time"
+                    blank="чч:мм-чч:мм"
+                    contentGenerator={() => {
+                        const timeIntervals = [];
+                        for (let hour = props.firstHour; hour <= props.lastHour; hour++) {
+                            timeIntervals.push({
+                                value: hour,
+                                title: `${
+                                    String(hour).length > 1  ? hour : '0' + hour
+                                }:00 - ${
+                                    String(hour + 1).length > 1 
+                                        ? hour + 1 
+                                        : '0' + (hour + 1)
+                                }:00`
+                            });
+                        }
+                        return timeIntervals
+                    }}
+                />
+                <label htmlFor="time-selector">Время</label>
             </div>
         </div>
     );
@@ -333,7 +374,7 @@ function CommentSection(props) {
             <textarea name="comment" id="comment-area">
 
             </textarea>
-            <label for="comment-area">Комментарий</label>
+            <label htmlFor="comment-area">Комментарий</label>
         </div>
     );
 }
@@ -342,7 +383,7 @@ function ButtonSection(props) {
     return (
         <div className="buttons-section">
             <button className="submit" onClick={props.onSubmit} type="submit">Отправить</button>
-            <button className="clear" type="reset">Очистить</button>
+            <button className="clear" onClick={props.onClear} type="reset">Очистить</button>
         </div>
     );
 }

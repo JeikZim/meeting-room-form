@@ -5,6 +5,7 @@ h1, h2, h3, p, span, a, input, body, html, button, select, option, form, label {
 
 body {  
     --main-blue: #3292d7;
+    --white-background: #ffffff;
     --card-background: #ffffff;
     --dark-text: #1a1a1a;
     --basic-text: #707070;
