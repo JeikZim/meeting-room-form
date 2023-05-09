@@ -151,14 +151,24 @@ export function SuccessMessage(props) {
             <HeaderSection />
             <div className="success-section">
                 <div className="success-icon">
-                    <svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="64" cy="64" r="64" fill="#51C89D"/>
-                    <path d="M25.1091 71.1163L47.7365 93.7437C48.9081 94.9153 50.8076 94.9153 51.9792 93.7437L102.891 42.832" stroke="white" stroke-width="13" stroke-linecap="round"/>
+                    <svg 
+                        className={props.isSuccess ? "" : "is-hidden"}
+                        width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <circle cx="64" cy="64" r="64" fill="#51C89D"/>
+                        <path d="M25.1091 71.1163L47.7365 93.7437C48.9081 94.9153 50.8076 94.9153 51.9792 93.7437L102.891 42.832" stroke="white" strokeWidth="13" strokeLinecap="round"/>
                     </svg>
+                    <div className={"loading" + (props.isSuccess ? " is-hidden" : " is-flexbox")}>
+                        <div className="spinner-border text-success" role="status">
+                            <span className="visually-hidden">Загрузка...</span>
+                        </div>
+                    </div>
                 </div>
                 <div className="success-message">
-                    <span className="success-text">Переговорная успешно забронирована.</span>
-                    <a href={props.href}>
+                    <span className="success-text">
+                        {props.isSuccess ? "Переговорная успешно забронирована." : "Загрузка..."}
+                    </span>
+                    <a href={props.href} className={props.isSuccess ? "" : "is-invisible"}>
                         <button className="ready">Готово</button>
                     </a>
                 </div>
@@ -166,4 +176,3 @@ export function SuccessMessage(props) {
         </div>
     );
 }
-  

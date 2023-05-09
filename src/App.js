@@ -16,7 +16,8 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            formSucces: false
+            formSend: false,
+            formSuccess: false
         }
     }
 
@@ -37,12 +38,10 @@ class App extends React.Component {
         let errCount = 0;
 
         if (!formData.tower || formData.tower === '-') {
-            console.log('tower');
             this.sendInvalidMessage('tower-selector', 'Выберите башню.');
             errCount++;
         } 
         if (!formData.floor || formData.floor === '-') {
-            console.log('floor');
             this.sendInvalidMessage('floor-selector', 'Выберите этаж.');
             errCount++;
         } 
@@ -58,52 +57,55 @@ class App extends React.Component {
             }
         } 
         else {
-            console.log('room')
             this.sendInvalidMessage('room-selector', 'Выберите комнату.');
             errCount++;
         } 
         if (formData.date && formData.time && formData.time !== 'чч:мм-чч:мм') {
             const arr = formData.date.split('-');
-            const 
-                year = arr[0],
-                month = arr[1] - 1,
-                day = arr[2]
-                // Дата и время бронирования в миллисекундах
+            const year = arr[0];
+            const month = arr[1] - 1;
+            const day = arr[2];
+
+            // Дата и время бронирования в миллисекундах
             const meetingDate = Date.UTC(year, month, day) + formData.time * 60 * 60 * 1000;
             const dateNow = new Date();
+
             // Проверка: до дня бронирования должно быть НЕ БОЛЬШЕ 30 дней (в миллисекунлах)
             if (meetingDate - dateNow > 2592000000) {
-                console.log('too match time')
                 this.sendInvalidMessage('date-selector', "Переговорную можно бронировать не раньше, чем за месяц.");
                 errCount++;
             } 
         } 
         if (!formData.date) {
-            console.log('date')
             this.sendInvalidMessage('date-selector', 'Выберите дату.')
             errCount++;
         }
         if (!formData.time || formData.time === 'чч:мм-чч:мм') {
-            console.log('time')
             this.sendInvalidMessage('time-selector', 'Выберите время.')
             errCount++;
         }
         if (formData.comment.length > 299) {
             formData.comment = formData.comment.slice(0, 300);
         } 
-
         if (errCount > 0) {
             return;
         }
 
         const dataJSON = JSON.stringify(formData) 
-        
-        console.log(dataJSON)
         this.setState(() => {
             return {
-                formSucces: true
+                formSend: true
             }
         });
+
+        setTimeout(() => {
+            console.log(dataJSON)
+            this.setState(() => {
+                return {
+                    formSuccess: true
+                }
+            });
+        }, 1000);
     };
 
     sendInvalidMessage(id, message) {
@@ -136,7 +138,7 @@ class App extends React.Component {
     render() {
         return (
             <div className="App">
-                <form id="main-form" className={"form" + (this.state.formSucces ? ' is-hidden' : '')}>
+                <form id="main-form" className={"form" + (this.state.formSend ? ' is-hidden' : '')}>
                     <HeaderSection />
                     <div className="place-section">
                         <TowerSection towers={['А', 'Б']} />
@@ -150,7 +152,11 @@ class App extends React.Component {
                         onClear={this.onClear.bind(this)}
                     />
                 </form>
-                <SuccessMessage href={"#"} isVisible={this.state.formSucces} />
+                <SuccessMessage 
+                    href={"#"} 
+                    isVisible={this.state.formSend} 
+                    isSuccess={this.state.formSuccess} 
+                />
             </div>
         );
     }
