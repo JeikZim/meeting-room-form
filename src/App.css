@@ -65,6 +65,7 @@ body {
     height: 60px;
     box-sizing: border-box;
     padding: 0 var(--padding);
+    color: var(--basic-text);
 }
 
 .tower-section, 
@@ -72,10 +73,13 @@ body {
 .room-section {
     width: 33%;
     height: 100%;
-    /* padding-right: 32px; */
 }
 
 .place-section label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
     padding-right: 16px;
     order: 0;
 }
@@ -93,9 +97,8 @@ body {
     order: 1;
 }
 
-.place-section {
-    color: var(--basic-text);
-
+.place-section .selectors-group.open + label {
+    color: var(--dark-text);
 }
 
 .place-section .select {
@@ -104,75 +107,61 @@ body {
 
     font-size: 18px;
     text-align: center;
+    color: var(--basic-text);
 
     border: 1px solid #C3C3C3;
     border-radius: var(--border-radius);
     background: transparent;
     
+    transition: all 0.1s ease-in-out;
+
     /* TODO: убрать */
     order: 1;
-}
-
-.place-section label:focus, 
-.place-section label:hover,
-.place-section .floor-section:focus , 
-.place-section .floor-section:hover ,
-.place-section .select:focus, 
-.place-section .select:hover,
-.place-section .selectors-group:hover,
-.place-section .selectors-group:focus,
-.place-section .pseudo-select:hover,
-.place-section .pseudo-select:focus,
-.place-section .pseudo-select:hover + .select,
-.place-section .pseudo-select:focus + .select,
-.place-section .selectors-group:focus + label,
-.place-section .selectors-group:hover + label {
-    color: var(--dark-text);
-}
-.place-section .select:hover,
-.place-section .select:focus,
-.place-section .pseudo-select:hover + .select,
-.place-section .pseudo-select:focus + .select {
-    outline: 0;
-    border-color: #9c9c9c;
-}
-
-.place-section .pseudo-select::-webkit-scrollbar { width: 4px }
-.place-section .pseudo-select::-webkit-scrollbar-button { height: 0 }
-.place-section .pseudo-select::-webkit-scrollbar-thumb { background-color: #00000025 }
-.place-section .pseudo-select::-webkit-scrollbar-thumb:hover { background-color: #0000002f }
-.place-section .pseudo-select::-webkit-scrollbar-track { background-color: #00000020 }
-
-
-
-
-.floor-section .pseudo-select {
-    position: absolute;
-    top: 48px;
-    right: 0;
-
-    max-height: 200px;
-    width: calc(48px - 2px);
-    
-    border: 1px solid #9c9c9c;
-    border-bottom-left-radius: var(--border-radius);
-    border-bottom-right-radius: var(--border-radius);
-
-    box-shadow: 0 4px 8px 0px #cbcbcb;
-    background-color: #fff;
-    overflow: auto;
 }
 
 .place-section .select.open {
     border-bottom: none;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
+    
+    border-color: #9c9c9c;
+    color: var(--dark-text);
 }
 
-.floor-section .pseudo-option {
-    user-select: none;
+.floor-section .pseudo-select {
+    position: absolute;
+    top: 48px;
+    right: 0;
+
+    max-height: 0;
+    width: calc(48px - 2px);
+    padding-right: 3px;
+    
+    border-bottom-left-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
+
+    background-color: #fff;
+    overflow: hidden;
+
+    transition-property: padding-top, max-height;
+    transition-duration: 0.15s;
+    transition-timing-function: ease-in-out;
 }
 
+
+.pseudo-select.open {
+    color: var(--dark-text);
+    max-height: 200px;
+    padding: 4px 0;
+    padding-right: 0px;
+
+    border: 1px solid #9c9c9c;
+    box-shadow: 0 4px 8px 0px #cbcbcb;
+
+    overflow: auto;
+}
+
+.floor-section .pseudo-option { user-select: none }
 .floor-section .pseudo-option:hover {
     color: #fff;
     background-color: var(--hover-option);
@@ -181,6 +170,49 @@ body {
     color: #fff;
     background-color: var(--active-option);
 }
+
+
+/* .place-section label:focus,  */
+/* .place-section .select:focus,  */
+.place-section label:hover,
+.place-section .select:hover,
+.floor-section:focus, 
+.floor-section:hover,
+.tower-section:focus, 
+.tower-section:hover,
+.room-section:focus, 
+.room-section:hover,
+.floor-section:hover .selectors-group,
+.tower-section:hover .selectors-group,
+.room-section:hover .selectors-group,
+.pseudo-select:hover,
+.pseudo-select:focus,
+.selectors-group:hover,
+.selectors-group:focus,
+.selectors-group:hover .select,
+.selectors-group:focus .select,
+.selectors-group:focus + label,
+.selectors-group:hover + label {
+    color: var(--dark-text);
+}
+.place-section .select:hover,
+.pseudo-select:hover + .select,
+.floor-section:hover .select,
+.tower-section:hover .select,
+.room-section:hover .select {
+    outline: 0;
+    border-color: #9c9c9c;
+}
+.place-section .select:focus, 
+.pseudo-select:focus + .select {
+    outline: 0;
+}
+.pseudo-select::-webkit-scrollbar { width: 4px }
+.pseudo-select::-webkit-scrollbar-button { height: 0 }
+.pseudo-select::-webkit-scrollbar-thumb { background-color: #00000025 }
+.pseudo-select::-webkit-scrollbar-thumb:hover { background-color: #0000002f }
+.pseudo-select::-webkit-scrollbar-track { background-color: #00000020 }
+
 
 
 

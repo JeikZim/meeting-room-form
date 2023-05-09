@@ -136,6 +136,96 @@ class App extends React.Component {
     }
 }
 
+class Selector extends React.Component {
+    constructor(props) {
+        super(props);
+    
+        this.contentGenerator = props.contentGenerator;
+        this.name = props.name
+
+        this.state = {
+            isOpen: false,
+            wasOpened: false,
+            value: null
+        }
+    }
+
+    openSelect(ev) {
+        ev.preventDefault()
+
+        if (!this.state.wasOpened) {
+            document.addEventListener('click', this.closeSelect.bind(this))
+        }
+
+        this.setState((prevState) => {
+            return {
+                isOpen: !prevState.isOpen,
+                wasOpened: true
+            }
+        });
+    }
+
+    closeSelect(ev) {
+        const selectorsGroup = document.getElementById(this.name + "-selectors-group")
+        const withinBoundaries = ev.composedPath().includes(selectorsGroup);
+    
+        if ( !withinBoundaries ) {
+            this.setState(() => {
+                return { isOpen: false }
+            });
+        }
+    }
+
+    selectOption(val) {
+        return (ev) => {
+            ev.preventDefault()
+
+            this.setState((prevState) => {
+                return { 
+                    value: val,
+                    isOpen: !prevState.isOpen 
+                }
+            })
+        }
+    }
+
+    render() {
+        return (
+            <div 
+                id={this.name + "-selectors-group"} 
+                className={"selectors-group " + (this.state.isOpen ? "open" : "")}
+            >
+                <div className={"pseudo-select " + (this.state.isOpen ? "open" : "")}>
+                    {this.contentGenerator().map(num => (
+                        <div 
+                            onClick={this.selectOption(num).bind(this)} 
+                            className="pseudo-option" 
+                            value={num}
+                        >
+                            {num}
+                        </div>
+                    ))}
+                </div>
+                <select 
+                    className={"select " + (this.state.isOpen ? "open" : "")}
+                    onMouseDown={this.openSelect.bind(this)}
+                    // onBlur={this.openSelect.bind(this)}
+                    id={this.name + "-selector"} 
+                    name={this.name} 
+                    required
+                >
+                    <option 
+                        value={this.state.value ? this.state.value : null} 
+                        selected
+                    >
+                        {this.state.value ? this.state.value : "-"}
+                    </option>
+                </select>
+            </div>
+        );
+    }
+}
+
 function HeaderSection(props) {
     return (
           <div className="header-section">
@@ -147,6 +237,18 @@ function HeaderSection(props) {
 function TowerSection(props) {
   return (
         <div className="tower-section">
+            {/* <Selector
+                name="tower"
+                contentGenerator={() => {
+                    const floors = { lower:3, upper: 27 }
+                    const nums = [];
+                    
+                    for (let num = floors.lower; num <= floors.upper; num++) {
+                        nums.push(num);
+                    }
+                    return nums;
+                }}
+            /> */}
             <select className="select" required name="tower" id="tower-selector">
                 <option value="" selected disabled>-</option>
                 <option value="А">А</option>
@@ -154,105 +256,27 @@ function TowerSection(props) {
             </select>
             <label for="tower-selector">Башня</label>
         </div>
-    //   <a 
-    //       onClick={props.onClick} // Прикрепление функции из переданных свойств (props)
-    //       className={ // dynamic className with state(props?) dependency
-    //           props.isMusicPlaying ? 'play active' : 'play'
-    //       }
-    //       href="#" title="Play music"  
-    //   />
   );
 }
 
-class Selector extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            isOpen: false
-        }
-        // type: str[], 
-        this.contentGenerator = props.contentGenerator;
-
-        // this.nums = [];
-        // for (let num = props.lowerFloor; num <= props.upperFloor; num++) {
-        //     this.nums.push(num);
-        // }
-    }
-
-    openeSelect(ev) {
-        ev.preventDefault()
-        const el = document.getElementById(this.props.name + "-selector")
-        this.setState((prevState) => {
-            return {
-                isOpen: !prevState.isOpen
-            }
-        })
-    }
-
-    render() {
-        return (
-            <div className="selectors-group">
-                <div className="pseudo-select">
-                    {this.contentGenerator().map(num => (
-                        <div className="pseudo-option" value={num}>{num}</div>
-                    ))}
-                </div>
-                <select className={"select" + this.state.isOpen ? "open" : ""}
-                    onMouseDown={this.openeSelect}
-                    name={this.props.name} id={this.props.name + "-selector"} required
-                >
-                    <option value="" selected>-</option>
-                </select>
-            </div>
-        );
-    }
-}
-
-class FloorSection extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.nums = [];
-        for (let num = props.lowerFloor; num <= props.upperFloor; num++) {
-            this.nums.push(num);
-        }
-    }
-
-    openeSelect(ev) {
-        ev.preventDefault()
-        
-    }
-
-    render() {
-        return (
-            <div className="floor-section">
-
-                <div className="floor-selectors selectors-group">
-                    <div className="pseudo-select">
-                        {this.nums.map(num => (
-                            <div className="pseudo-option" value={num}>{num}</div>
-                        ))}
-                    </div>
-                    <select className="select open" 
-                        size={this.state.size}
-                        onMouseDown={this.openeSelect}
-                        name="floor" id="floor-selector" required
-                    >
-                        <option value="" selected>-</option>
-                    </select>
-                </div>
-                <label for="floor-selector">Этаж</label>
-            </div>
-        );
-    }
-    // onMouseLeave={() => {
-    //     this.setState((prevState) => {
-    //         return {
-    //             size: (prevState.size != 1) ? this.nums.length : 5
-    //         }
-    //     })
-    // }}
+function FloorSection(params) {
+    return (
+        <div className="floor-section">
+            <Selector
+                name="floor"
+                contentGenerator={() => {
+                    const floors = { lower:3, upper: 27 }
+                    const nums = [];
+                    
+                    for (let num = floors.lower; num <= floors.upper; num++) {
+                        nums.push(num);
+                    }
+                    return nums;
+                }}
+            />
+            <label for="floor-selector">Этаж</label>
+        </div>
+    );
 }
 
 function RoomSection(props) {
