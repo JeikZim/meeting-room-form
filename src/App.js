@@ -176,7 +176,12 @@ function FloorSection(props) {
     
     return (
         <div className="floor-section">
-            <select required name="floor" id="floor-selector">
+            <select 
+                // size={1} 
+                // onClick={this.size= (this.size!=1) ? nums.length : 5} 
+                // onMouseLeave={this.size= (this.size!=1) ? nums.length : 5} 
+                name="floor" id="floor-selector" required
+            >
                 <option value="" selected disabled>-</option>
                 { nums.map(num => (
                         <option value={num}>{num}</option>
